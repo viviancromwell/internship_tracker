@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id             String           @id @default(cuid())
+  name           String
+  email          String           @unique
+  hashedPassword String
+  field          String
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  profile        Profile?
+  tracking       UserInternship[]
+  notifications  Notification[]
+}
+
+model Profile {
+  id             String   @id @default(cuid())
+  userId         String   @unique
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  school         String?
+  graduationYear Int?
+  major          String?
+  bio            String?
+  interests      String   @default("[]")
+  locations      String   @default("[]")
+  updatedAt      DateTime @updatedAt
+}
+
+model Internship {
+  id               String           @id @default(cuid())
+  field            String
+  company          String
+  role             String
+  category         String
+  location         String
+  description      String
+  url              String?
+  deadline         String?
+  period           String?
+  paid             Boolean          @default(false)
+  availability     String           @default("check")
+  undergradEligible Boolean         @default(true)
+  contact          String?
+  tooltipAbout     String?
+  tooltipCandidate String?
+  tooltipSkills    String?
+  tooltipMaterials String?
+  active           Boolean          @default(true)
+  createdAt        DateTime         @default(now())
+  tracking         UserInternship[]
+}
+
+model UserInternship {
+  id           String     @id @default(cuid())
+  userId       String
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  internshipId String
+  internship   Internship @relation(fields: [internshipId], references: [id], onDelete: Cascade)
+  status       String     @default("Not Started")
+  priority     Int        @default(0)
+  notes        String?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@unique([userId, internshipId])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  message   String
+  link      String?
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
