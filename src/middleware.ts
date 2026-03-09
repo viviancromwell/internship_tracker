@@ -7,19 +7,17 @@ export function middleware(request: NextRequest) {
     request.cookies.get("__Secure-authjs.session-token");
 
   const { pathname } = request.nextUrl;
-  const publicPaths = ["/login", "/register"];
-  const isPublic = publicPaths.some((p) => pathname.startsWith(p));
+  const publicPaths = ["/login", "/register", "/"];
+  const isPublic =
+    pathname === "/" || publicPaths.some((p) => p !== "/" && pathname.startsWith(p));
 
-  if (pathname === "/") {
-    if (token) {
-      return NextResponse.redirect(new URL("/dashboard", request.url));
-    }
-    return NextResponse.redirect(new URL("/login", request.url));
+  if (pathname === "/" && token) {
+    return NextResponse.redirect(new URL("/internships", request.url));
   }
 
   if (isPublic) {
     if (token) {
-      return NextResponse.redirect(new URL("/dashboard", request.url));
+      return NextResponse.redirect(new URL("/internships", request.url));
     }
     return NextResponse.next();
   }

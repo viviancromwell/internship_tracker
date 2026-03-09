@@ -30,13 +30,6 @@ export default function ProfilePage() {
   const [newLocation, setNewLocation] = useState("");
 
   const field = (session?.user as Record<string, unknown>)?.field as string;
-  const isDesign = field === "design";
-  const gradientStyle = isDesign
-    ? "linear-gradient(135deg, #ec4899, #a855f7)"
-    : "linear-gradient(135deg, #2563eb, #1e3a5f)";
-  const accentColor = isDesign ? "#ec4899" : "#2563eb";
-  const borderColor = isDesign ? "#fbcfe8" : "#bfdbfe";
-  const lightBg = isDesign ? "#fdf2f8" : "#eff6ff";
 
   useEffect(() => {
     fetch("/api/profile")
@@ -108,56 +101,49 @@ export default function ProfilePage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="text-gray-400 text-lg">Loading profile...</div>
+        <div className="text-neutral-400 text-lg">Loading profile...</div>
       </div>
     );
   }
 
   return (
     <div className="max-w-2xl">
-      <div
-        className="rounded-2xl p-6 text-white mb-6"
-        style={{ background: gradientStyle }}
-      >
+      <div className="rounded-2xl p-6 text-white mb-6 bg-charcoal">
         <h1 className="text-2xl font-bold">Your Profile</h1>
-        <p className="opacity-80 text-sm mt-1">
-          Customize your interests and location to get better internship
-          matches
+        <p className="opacity-70 text-sm mt-1">
+          Customize your interests and location to get better matches
         </p>
       </div>
 
       <div className="space-y-6">
         {/* Basic Info */}
-        <div
-          className="bg-white rounded-xl border p-6"
-          style={{ borderColor }}
-        >
-          <h2 className="text-lg font-bold text-gray-900 mb-4">
+        <div className="bg-neutral-50 rounded-xl border border-tan p-6">
+          <h2 className="text-lg font-bold text-neutral-900 mb-4">
             Basic Information
           </h2>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-semibold text-gray-600 mb-1">
+              <label className="block text-sm font-semibold text-neutral-600 mb-1">
                 Name
               </label>
               <input
                 value={session?.user?.name || ""}
                 disabled
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-gray-50 text-gray-500"
+                className="w-full px-3 py-2 border border-neutral-200 rounded-lg text-sm bg-neutral-100 text-neutral-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-gray-600 mb-1">
+              <label className="block text-sm font-semibold text-neutral-600 mb-1">
                 Email
               </label>
               <input
                 value={session?.user?.email || ""}
                 disabled
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-gray-50 text-gray-500"
+                className="w-full px-3 py-2 border border-neutral-200 rounded-lg text-sm bg-neutral-100 text-neutral-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-gray-600 mb-1">
+              <label className="block text-sm font-semibold text-neutral-600 mb-1">
                 School
               </label>
               <input
@@ -166,12 +152,11 @@ export default function ProfilePage() {
                   setProfile({ ...profile, school: e.target.value })
                 }
                 placeholder="e.g. UCLA, Stanford"
-                className="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2"
-                style={{ borderColor }}
+                className="w-full px-3 py-2 border border-tan rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-gray-600 mb-1">
+              <label className="block text-sm font-semibold text-neutral-600 mb-1">
                 Graduation Year
               </label>
               <input
@@ -180,12 +165,11 @@ export default function ProfilePage() {
                   setProfile({ ...profile, graduationYear: e.target.value })
                 }
                 placeholder="e.g. 2028"
-                className="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2"
-                style={{ borderColor }}
+                className="w-full px-3 py-2 border border-tan rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-gray-600 mb-1">
+              <label className="block text-sm font-semibold text-neutral-600 mb-1">
                 Major
               </label>
               <input
@@ -194,24 +178,23 @@ export default function ProfilePage() {
                   setProfile({ ...profile, major: e.target.value })
                 }
                 placeholder={
-                  isDesign ? "e.g. Design Media Arts" : "e.g. Political Science"
+                  field === "design" ? "e.g. Design Media Arts" : "e.g. Political Science"
                 }
-                className="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2"
-                style={{ borderColor }}
+                className="w-full px-3 py-2 border border-tan rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-gray-600 mb-1">
+              <label className="block text-sm font-semibold text-neutral-600 mb-1">
                 Track
               </label>
               <input
-                value={isDesign ? "Design & Creative Arts" : "Political Science"}
+                value={field === "design" ? "Design & Creative Arts" : "Political Science"}
                 disabled
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-gray-50 text-gray-500"
+                className="w-full px-3 py-2 border border-neutral-200 rounded-lg text-sm bg-neutral-100 text-neutral-500"
               />
             </div>
             <div className="col-span-2">
-              <label className="block text-sm font-semibold text-gray-600 mb-1">
+              <label className="block text-sm font-semibold text-neutral-600 mb-1">
                 Bio
               </label>
               <textarea
@@ -221,20 +204,16 @@ export default function ProfilePage() {
                 }
                 placeholder="Tell us about yourself..."
                 rows={3}
-                className="w-full px-3 py-2 border rounded-lg text-sm resize-y focus:outline-none focus:ring-2"
-                style={{ borderColor }}
+                className="w-full px-3 py-2 border border-tan rounded-lg text-sm resize-y focus:outline-none focus:ring-2 focus:ring-primary"
               />
             </div>
           </div>
         </div>
 
         {/* Interests */}
-        <div
-          className="bg-white rounded-xl border p-6"
-          style={{ borderColor }}
-        >
-          <h2 className="text-lg font-bold text-gray-900 mb-4">Interests</h2>
-          <p className="text-sm text-gray-500 mb-3">
+        <div className="bg-neutral-50 rounded-xl border border-tan p-6">
+          <h2 className="text-lg font-bold text-neutral-900 mb-4">Interests</h2>
+          <p className="text-sm text-muted mb-3">
             Add topics you&apos;re interested in — we&apos;ll use these to highlight
             matching internships.
           </p>
@@ -242,15 +221,14 @@ export default function ProfilePage() {
             {profile.interests.map((interest) => (
               <span
                 key={interest}
-                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-sm font-semibold"
-                style={{ background: lightBg, color: accentColor }}
+                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-sm font-semibold bg-primary/10 text-primary"
               >
                 {interest}
                 <button
                   onClick={() => removeInterest(interest)}
                   className="bg-transparent border-none cursor-pointer p-0"
                 >
-                  <X className="w-3 h-3" style={{ color: accentColor }} />
+                  <X className="w-3 h-3 text-primary" />
                 </button>
               </span>
             ))}
@@ -261,17 +239,15 @@ export default function ProfilePage() {
               onChange={(e) => setNewInterest(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && addInterest()}
               placeholder={
-                isDesign
+                field === "design"
                   ? "e.g. UX Design, Animation, Game Art"
                   : "e.g. Immigration Policy, Criminal Justice"
               }
-              className="flex-1 px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2"
-              style={{ borderColor }}
+              className="flex-1 px-3 py-2 border border-tan rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
             />
             <button
               onClick={addInterest}
-              className="px-3 py-2 text-white border-none rounded-lg cursor-pointer"
-              style={{ background: accentColor }}
+              className="px-3 py-2 text-white border-none rounded-lg cursor-pointer bg-primary"
             >
               <Plus className="w-4 h-4" />
             </button>
@@ -279,26 +255,22 @@ export default function ProfilePage() {
         </div>
 
         {/* Preferred Locations */}
-        <div
-          className="bg-white rounded-xl border p-6"
-          style={{ borderColor }}
-        >
-          <h2 className="text-lg font-bold text-gray-900 mb-4">
+        <div className="bg-neutral-50 rounded-xl border border-tan p-6">
+          <h2 className="text-lg font-bold text-neutral-900 mb-4">
             Preferred Locations
           </h2>
           <div className="flex flex-wrap gap-2 mb-3">
             {profile.locations.map((loc) => (
               <span
                 key={loc}
-                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-sm font-semibold"
-                style={{ background: lightBg, color: accentColor }}
+                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-sm font-semibold bg-primary/10 text-primary"
               >
-                📍 {loc}
+                {loc}
                 <button
                   onClick={() => removeLocation(loc)}
                   className="bg-transparent border-none cursor-pointer p-0"
                 >
-                  <X className="w-3 h-3" style={{ color: accentColor }} />
+                  <X className="w-3 h-3 text-primary" />
                 </button>
               </span>
             ))}
@@ -309,13 +281,11 @@ export default function ProfilePage() {
               onChange={(e) => setNewLocation(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && addLocation()}
               placeholder="e.g. Los Angeles, San Francisco, Remote"
-              className="flex-1 px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2"
-              style={{ borderColor }}
+              className="flex-1 px-3 py-2 border border-tan rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
             />
             <button
               onClick={addLocation}
-              className="px-3 py-2 text-white border-none rounded-lg cursor-pointer"
-              style={{ background: accentColor }}
+              className="px-3 py-2 text-white border-none rounded-lg cursor-pointer bg-primary"
             >
               <Plus className="w-4 h-4" />
             </button>
@@ -327,14 +297,13 @@ export default function ProfilePage() {
           <button
             onClick={handleSave}
             disabled={saving}
-            className="px-6 py-3 text-white border-none rounded-xl cursor-pointer font-semibold text-sm flex items-center gap-2 disabled:opacity-50"
-            style={{ background: gradientStyle }}
+            className="px-6 py-3 text-white border-none rounded-xl cursor-pointer font-semibold text-sm flex items-center gap-2 disabled:opacity-50 bg-primary hover:bg-accent transition-colors"
           >
             <Save className="w-4 h-4" />
             {saving ? "Saving..." : "Save Profile"}
           </button>
           {saved && (
-            <span className="text-sm font-semibold" style={{ color: "#10b981" }}>
+            <span className="text-sm font-semibold text-success">
               Profile saved successfully!
             </span>
           )}

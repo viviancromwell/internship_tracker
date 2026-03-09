@@ -3,16 +3,11 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
-import {
-  LayoutDashboard,
-  Briefcase,
-  User,
-  LogOut,
-  GraduationCap,
-} from "lucide-react";
+import Image from "next/image";
+import { Briefcase, User, LogOut } from "lucide-react";
+import strideLogo from "@/assets/icons/stride-logo-on-light.png";
 
 const navItems = [
-  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/internships", label: "Internships", icon: Briefcase },
   { href: "/profile", label: "Profile", icon: User },
 ];
@@ -20,43 +15,11 @@ const navItems = [
 export function Sidebar() {
   const pathname = usePathname();
   const { data: session } = useSession();
-  const field = (session?.user as Record<string, unknown>)?.field as string;
-  const isDesign = field === "design";
 
   return (
-    <aside
-      className="fixed left-0 top-0 h-full w-64 flex flex-col border-r z-30"
-      style={{
-        background: isDesign
-          ? "linear-gradient(180deg, #fdf2f8, #faf5ff)"
-          : "linear-gradient(180deg, #eff6ff, #f0f9ff)",
-        borderColor: isDesign ? "#fbcfe8" : "#bfdbfe",
-      }}
-    >
-      <div
-        className="p-6 border-b"
-        style={{ borderColor: isDesign ? "#fbcfe8" : "#bfdbfe" }}
-      >
-        <div className="flex items-center gap-3">
-          <div
-            className="w-10 h-10 rounded-xl flex items-center justify-center"
-            style={{
-              background: isDesign
-                ? "linear-gradient(135deg, #ec4899, #a855f7)"
-                : "linear-gradient(135deg, #2563eb, #1e3a5f)",
-            }}
-          >
-            <GraduationCap className="w-5 h-5 text-white" />
-          </div>
-          <div>
-            <h2 className="font-bold text-sm text-gray-900">
-              Internship Tracker
-            </h2>
-            <p className="text-xs text-gray-500">
-              {isDesign ? "Design & Creative" : "Political Science"}
-            </p>
-          </div>
-        </div>
+    <aside className="fixed left-0 top-0 h-full w-64 flex flex-col border-r border-tan bg-neutral-50 z-30">
+      <div className="p-6 border-b border-tan">
+        <Image src={strideLogo} alt="Stride" height={36} className="w-auto" />
       </div>
 
       <nav className="flex-1 p-4 space-y-1">
@@ -66,15 +29,11 @@ export function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
-              className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all"
-              style={{
-                background: isActive
-                  ? isDesign
-                    ? "linear-gradient(135deg, #ec4899, #a855f7)"
-                    : "linear-gradient(135deg, #2563eb, #1e3a5f)"
-                  : "transparent",
-                color: isActive ? "#fff" : "#4b5563",
-              }}
+              className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
+                isActive
+                  ? "bg-primary/10 text-primary"
+                  : "text-neutral-600 hover:bg-neutral-100"
+              }`}
             >
               <item.icon className="w-5 h-5" />
               {item.label}
@@ -83,33 +42,23 @@ export function Sidebar() {
         })}
       </nav>
 
-      <div
-        className="p-4 border-t"
-        style={{ borderColor: isDesign ? "#fbcfe8" : "#bfdbfe" }}
-      >
+      <div className="p-4 border-t border-tan">
         <div className="flex items-center gap-3 mb-3 px-2">
-          <div
-            className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold"
-            style={{
-              background: isDesign
-                ? "linear-gradient(135deg, #ec4899, #a855f7)"
-                : "linear-gradient(135deg, #2563eb, #1e3a5f)",
-            }}
-          >
+          <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold bg-charcoal">
             {session?.user?.name?.[0]?.toUpperCase() || "?"}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-semibold text-gray-900 truncate">
+            <p className="text-sm font-semibold text-charcoal truncate">
               {session?.user?.name}
             </p>
-            <p className="text-xs text-gray-500 truncate">
+            <p className="text-xs text-muted truncate">
               {session?.user?.email}
             </p>
           </div>
         </div>
         <button
           onClick={() => signOut({ callbackUrl: "/login" })}
-          className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm text-gray-500 hover:bg-gray-100 w-full transition-colors"
+          className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm text-muted hover:bg-neutral-100 w-full transition-colors"
         >
           <LogOut className="w-4 h-4" />
           Sign Out

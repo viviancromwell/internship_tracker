@@ -1,12 +1,47 @@
 @import "tailwindcss";
 
 @theme inline {
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Typography — set by next/font in layout.tsx */
+  --font-mono: ui-monospace, SFMono-Regular, "Cascadia Code",
+    Menlo, Consolas, monospace;
+
+  /* Core Palette */
+  --color-primary: #E85A4F;
+  --color-accent: #E98074;
+  --color-background: #EAE7DC;
+  --color-tan: #D8C3A5;
+  --color-muted: #8E8D8A;
+
+  /* Charcoal — brand dark text */
+  --color-charcoal: #3D3A35;
+
+  /* Neutral Scale */
+  --color-neutral-50: #FAFAF9;
+  --color-neutral-100: #F5F5F3;
+  --color-neutral-200: #E8E8E4;
+  --color-neutral-300: #D5D5D0;
+  --color-neutral-400: #A3A29E;
+  --color-neutral-500: #787774;
+  --color-neutral-600: #5C5B58;
+  --color-neutral-700: #434240;
+  --color-neutral-800: #2C2B29;
+  --color-neutral-900: #1A1918;
+
+  /* Destructive */
+  --color-destructive-50: #FEF2F2;
+  --color-destructive-100: #FEE2E2;
+  --color-destructive-200: #FECACA;
+  --color-destructive-500: #DC2626;
+  --color-destructive-600: #B91C1C;
+  --color-destructive-700: #991B1B;
+
+  /* Success */
+  --color-success: #10b981;
 }
 
 body {
-  font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
+  font-family: var(--font-sans);
+  background-color: var(--color-background);
 }
 
 @keyframes pulse-slow {

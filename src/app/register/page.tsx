@@ -3,7 +3,9 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { GraduationCap, UserPlus, Palette, Scale } from "lucide-react";
+import Image from "next/image";
+import { UserPlus, Palette, Scale } from "lucide-react";
+import strideIcon from "@/assets/icons/stride-icon.png";
 
 export default function RegisterPage() {
   const [name, setName] = useState("");
@@ -49,7 +51,7 @@ export default function RegisterPage() {
         setError("Account created but sign-in failed. Please go to login.");
         setLoading(false);
       } else {
-        window.location.href = "/dashboard";
+        window.location.href = "/internships";
       }
     } catch {
       setError("Something went wrong");
@@ -58,30 +60,30 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-purple-50 py-12 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-background py-12 px-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 mb-4">
-            <GraduationCap className="w-8 h-8 text-white" />
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-4">
+            <Image src={strideIcon} alt="Stride" width={56} height={56} />
           </div>
-          <h1 className="text-3xl font-bold text-gray-900">Create Account</h1>
-          <p className="text-gray-500 mt-2">
-            Start tracking your internship journey
+          <h1 className="text-3xl font-bold text-charcoal">Join Stride</h1>
+          <p className="text-muted mt-2">
+            Find your next step
           </p>
         </div>
 
         <form
           onSubmit={handleSubmit}
-          className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 space-y-5"
+          className="bg-neutral-50 rounded-2xl shadow-lg border border-tan p-8 space-y-5"
         >
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm font-medium">
+            <div className="bg-destructive-50 border border-destructive-200 text-destructive-700 px-4 py-3 rounded-xl text-sm font-medium">
               {error}
             </div>
           )}
 
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
+            <label className="block text-sm font-semibold text-neutral-700 mb-2">
               Full Name
             </label>
             <input
@@ -89,13 +91,13 @@ export default function RegisterPage() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-              className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="w-full px-4 py-3 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
               placeholder="Your name"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
+            <label className="block text-sm font-semibold text-neutral-700 mb-2">
               Email
             </label>
             <input
@@ -103,13 +105,13 @@ export default function RegisterPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="w-full px-4 py-3 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
               placeholder="you@example.com"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
+            <label className="block text-sm font-semibold text-neutral-700 mb-2">
               Password
             </label>
             <input
@@ -118,13 +120,13 @@ export default function RegisterPage() {
               onChange={(e) => setPassword(e.target.value)}
               required
               minLength={4}
-              className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="w-full px-4 py-3 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
               placeholder="At least 4 characters"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-3">
+            <label className="block text-sm font-semibold text-neutral-700 mb-3">
               Field of Study
             </label>
             <div className="grid grid-cols-2 gap-3">
@@ -133,17 +135,17 @@ export default function RegisterPage() {
                 onClick={() => setField("design")}
                 className={`p-4 rounded-xl border-2 text-left transition-all ${
                   field === "design"
-                    ? "border-pink-400 bg-pink-50"
-                    : "border-gray-200 hover:border-pink-200"
+                    ? "border-primary bg-primary/10"
+                    : "border-neutral-200 hover:border-accent"
                 }`}
               >
                 <Palette
-                  className={`w-6 h-6 mb-2 ${field === "design" ? "text-pink-500" : "text-gray-400"}`}
+                  className={`w-6 h-6 mb-2 ${field === "design" ? "text-primary" : "text-neutral-400"}`}
                 />
-                <div className="font-semibold text-sm text-gray-900">
+                <div className="font-semibold text-sm text-neutral-900">
                   Design & Arts
                 </div>
-                <div className="text-xs text-gray-500 mt-1">
+                <div className="text-xs text-muted mt-1">
                   Creative, UX, Animation
                 </div>
               </button>
@@ -152,17 +154,17 @@ export default function RegisterPage() {
                 onClick={() => setField("polisci")}
                 className={`p-4 rounded-xl border-2 text-left transition-all ${
                   field === "polisci"
-                    ? "border-blue-400 bg-blue-50"
-                    : "border-gray-200 hover:border-blue-200"
+                    ? "border-primary bg-primary/10"
+                    : "border-neutral-200 hover:border-accent"
                 }`}
               >
                 <Scale
-                  className={`w-6 h-6 mb-2 ${field === "polisci" ? "text-blue-500" : "text-gray-400"}`}
+                  className={`w-6 h-6 mb-2 ${field === "polisci" ? "text-primary" : "text-neutral-400"}`}
                 />
-                <div className="font-semibold text-sm text-gray-900">
+                <div className="font-semibold text-sm text-neutral-900">
                   Political Science
                 </div>
-                <div className="text-xs text-gray-500 mt-1">
+                <div className="text-xs text-muted mt-1">
                   Gov, Law, Policy
                 </div>
               </button>
@@ -172,7 +174,7 @@ export default function RegisterPage() {
           <button
             type="submit"
             disabled={loading || !field}
-            className="w-full py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-xl font-semibold text-sm hover:opacity-90 transition-opacity disabled:opacity-50 flex items-center justify-center gap-2"
+            className="w-full py-3 bg-primary text-white rounded-xl font-semibold text-sm hover:bg-accent transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
           >
             {loading ? (
               "Creating account..."
@@ -183,11 +185,11 @@ export default function RegisterPage() {
             )}
           </button>
 
-          <p className="text-center text-sm text-gray-500">
+          <p className="text-center text-sm text-muted">
             Already have an account?{" "}
             <Link
               href="/login"
-              className="text-indigo-600 font-semibold hover:underline"
+              className="text-primary font-semibold hover:underline"
             >
               Sign in
             </Link>

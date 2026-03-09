@@ -131,6 +131,6 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ error: "ID required" }, { status: 400 });
   }
 
-  await prisma.internship.delete({ where: { id } });
+  await prisma.internship.update({ where: { id }, data: { active: false } });
   return NextResponse.json({ success: true });
 }

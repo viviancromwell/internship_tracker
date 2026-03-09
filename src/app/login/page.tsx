@@ -3,7 +3,9 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { GraduationCap, LogIn } from "lucide-react";
+import Image from "next/image";
+import { LogIn } from "lucide-react";
+import strideIcon from "@/assets/icons/stride-icon.png";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -26,35 +28,35 @@ export default function LoginPage() {
       setError("Invalid email or password");
       setLoading(false);
     } else {
-      window.location.href = "/dashboard";
+      window.location.href = "/internships";
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+    <div className="min-h-screen flex items-center justify-center bg-background">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 mb-4">
-            <GraduationCap className="w-8 h-8 text-white" />
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-4">
+            <Image src={strideIcon} alt="Stride" width={56} height={56} />
           </div>
-          <h1 className="text-3xl font-bold text-gray-900">Welcome Back</h1>
-          <p className="text-gray-500 mt-2">
-            Sign in to your internship tracker
+          <h1 className="text-3xl font-bold text-charcoal">Welcome Back</h1>
+          <p className="text-muted mt-2">
+            Sign in to Stride
           </p>
         </div>
 
         <form
           onSubmit={handleSubmit}
-          className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 space-y-5"
+          className="bg-neutral-50 rounded-2xl shadow-lg border border-tan p-8 space-y-5"
         >
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm font-medium">
+            <div className="bg-destructive-50 border border-destructive-200 text-destructive-700 px-4 py-3 rounded-xl text-sm font-medium">
               {error}
             </div>
           )}
 
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
+            <label className="block text-sm font-semibold text-neutral-700 mb-2">
               Email
             </label>
             <input
@@ -62,13 +64,13 @@ export default function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="w-full px-4 py-3 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
               placeholder="you@example.com"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
+            <label className="block text-sm font-semibold text-neutral-700 mb-2">
               Password
             </label>
             <input
@@ -76,7 +78,7 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="w-full px-4 py-3 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
               placeholder="Enter your password"
             />
           </div>
@@ -84,7 +86,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-xl font-semibold text-sm hover:opacity-90 transition-opacity disabled:opacity-50 flex items-center justify-center gap-2"
+            className="w-full py-3 bg-primary text-white rounded-xl font-semibold text-sm hover:bg-accent transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
           >
             {loading ? (
               "Signing in..."
@@ -95,11 +97,28 @@ export default function LoginPage() {
             )}
           </button>
 
-          <p className="text-center text-sm text-gray-500">
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-neutral-200" />
+            </div>
+            <div className="relative flex justify-center text-xs">
+              <span className="bg-neutral-50 px-3 text-muted">or</span>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => signIn("auth0", { callbackUrl: "/internships" })}
+            className="w-full py-3 bg-charcoal text-white rounded-xl font-semibold text-sm hover:bg-neutral-700 transition-colors flex items-center justify-center gap-2"
+          >
+            Continue with Google
+          </button>
+
+          <p className="text-center text-sm text-muted">
             Don&apos;t have an account?{" "}
             <Link
               href="/register"
-              className="text-indigo-600 font-semibold hover:underline"
+              className="text-primary font-semibold hover:underline"
             >
               Create one
             </Link>
