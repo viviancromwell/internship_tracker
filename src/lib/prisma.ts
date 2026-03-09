@@ -6,7 +6,8 @@ const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };
 
 function createPrismaClient() {
   const sql = neon(process.env.DATABASE_URL!);
-  const adapter = new PrismaNeon(sql);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const adapter = new PrismaNeon(sql as any);
   return new PrismaClient({ adapter });
 }
 
